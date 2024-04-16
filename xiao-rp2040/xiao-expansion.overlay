@@ -1,0 +1,35 @@
+/ {
+    chosen {
+      zephyr,display = &ssd1306;
+    };
+    
+    aliases {
+		  sw0 = &button0;
+    };    
+
+    buttons {
+      compatible = "gpio-keys";
+      button0: button_0 {
+          gpios = <&gpio0 27 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+          label = "Expansion Board Button";
+      };
+    };
+};
+
+&i2c1 {
+  status = "okay";
+
+  ssd1306: ssd1306@3c {
+    compatible = "solomon,ssd1306fb";
+    reg = <0x3c>;
+    width = <128>;
+    height = <64>;
+    segment-offset = <0>;
+    page-offset = <0>;
+    display-offset = <0>;
+    multiplex-ratio = <63>;
+    segment-remap;
+    com-invdir;
+    prechargep = <0x22>;
+  };
+};

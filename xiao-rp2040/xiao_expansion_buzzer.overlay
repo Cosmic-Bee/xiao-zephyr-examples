@@ -1,0 +1,35 @@
+/delete-node/ &pwm_led0;
+
+/ {
+	aliases {
+		pwm-led = &pwm_led0;
+	};
+};
+
+&{/pwm_leds} {
+	status = "okay";
+	compatible = "pwm-leds";
+
+	pwm_led0: pwm_led0 {
+		status = "okay";
+		pwms = <&pwm 13 PWM_HZ(880) PWM_POLARITY_NORMAL>;
+	};
+};
+
+&pinctrl {
+	pwm_ch6b_default: pwm_ch6b_default {
+		group1 {
+			pinmux = <PWM_6B_P29>;
+		};
+	};
+};
+
+&pwm {
+	status = "okay";
+	pinctrl-0 = <&pwm_ch6b_default>;
+	divider-frac-6 = <15>;
+	divider-int-6 = <255>;
+};
+
+
+

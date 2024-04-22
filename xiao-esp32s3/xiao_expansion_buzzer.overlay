@@ -1,0 +1,37 @@
+#include <zephyr/dt-bindings/pwm/pwm.h>
+
+/ {
+    aliases {
+        pwm-0 = &ledc0;
+        pwm-led0 = &pwm_buzzer;
+    };
+
+    pwmleds {
+        compatible = "pwm-leds";
+        pwm_buzzer: pwm_led_gpio0_4 {
+            label = "PWM Buzzer";
+            pwms = <&ledc0 0 1000 PWM_POLARITY_NORMAL>;
+        };
+    };
+};
+
+&pinctrl {
+    ledc0_default: ledc0_default {
+        group1 {
+            pinmux = <LEDC_CH0_GPIO4>;
+            output-enable;
+        };
+    };
+};
+
+&ledc0 {
+    pinctrl-0 = <&ledc0_default>;
+    pinctrl-names = "default";
+    status = "okay";
+    #address-cells = <1>;
+    #size-cells = <0>;
+    channel0@0 {
+        reg = <0x0>;
+        timer = <0>;
+    };
+};

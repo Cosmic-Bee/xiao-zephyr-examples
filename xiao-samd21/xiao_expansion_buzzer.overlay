@@ -1,0 +1,38 @@
+/delete-node/ &pwm_led0;
+
+/ {
+	aliases {
+		pwm-led = &pwm_led0;
+	};
+
+    pwm_leds {
+        status = "okay";
+        compatible = "pwm-leds";
+
+        pwm_led0: pwm_led_0 {
+            pwms = <&tcc1 1 PWM_HZ(880) >;
+        };
+    };
+};
+
+&pinctrl {
+	pwm_default: pwm_default {
+		group1 {
+			pinmux = <PA11E_TCC1_WO1>;
+		};
+	};
+};
+
+&tcc1 {
+	status = "okay";
+	compatible = "atmel,sam0-tcc-pwm";
+	/* Gives a maximum period of 1.4 s */
+	prescaler = <1024>;
+	#pwm-cells = <2>;
+
+	pinctrl-0 = <&pwm_default>;
+	pinctrl-names = "default";
+};
+
+
+
